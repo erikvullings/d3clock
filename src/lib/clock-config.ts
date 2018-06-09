@@ -1,7 +1,11 @@
+import { ClockFaceCreator } from '..';
+
 /** Clock configuration object */
 export interface IClockConfig {
   /** Parent element selector, e.g. #clock */
   target: string;
+  /** Clock face creator */
+  face: ClockFaceCreator;
   /** Clock width */
   width?: number;
   /** Fix the date */
@@ -12,6 +16,4 @@ export interface IClockConfig {
     mins?: number;
     secs?: number;
   };
-  /** Clock face */
-  face?: 'sbb' | 'modern' | 'braun' | 'classic';
 }

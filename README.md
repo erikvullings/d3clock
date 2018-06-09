@@ -7,7 +7,8 @@ Credits go to Daniel Pradilla, who created the [original d3clock](https://www.da
 I've only:
 - converted d3 from v3 to v5
 - converted the JavaScript to TypeScript
-- removed some redundant computations
+- refactored the clock faces to separate files, so you only load faces that you will be using.
+- removed some redundant computations and code
 - fixed some bugs (e.g. the SBB clock added new circle elements on every clock tick, roman numeral IV...)
 - published it to npm.
 

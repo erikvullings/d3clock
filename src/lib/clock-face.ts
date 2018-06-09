@@ -7,6 +7,8 @@ export interface ITickText {
   fn: (i: number) => string;
 }
 
+export type ClockFaceCreator = (outerRadius: number, width: number) => IClockFace;
+
 export interface IClockFace {
   outerRing: {
     r: number;
