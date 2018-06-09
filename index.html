@@ -28,27 +28,42 @@
       grid-row-gap: 20px;
     }
 
-    .container .box {
+    .container > .box {
       padding: 20px;
-      color: #fff;
       display: flex;
       align-items: center;
-      justify-content: center;
+      /* justify-content: center; */
     }
 
-    h1 {
+    h1, h2, h3 {
       text-align: center;
     }
-  </style>
+
+    .container > .box > h3 {
+      color: red;
+    }
+    </style>
 </head>
 
 <body>
   <h1>D3 Clock</h1>
   <div class="container">
-    <div class="box" id="sbb"></div>
-    <div class="box" id="braun"></div>
-    <div class="box" id="classic"></div>
-    <div class="box" id="modern"></div>
+    <div class="box">
+      <h3>SBB</h3>
+      <div id="sbb"></div>
+    </div>
+    <div class="box">
+      <h3>Braun</h3>
+      <div id="braun"></div>
+    </div>
+    <div class="box">
+      <h3>Classic</h3>
+      <div id="classic"></div>
+    </div>
+    <div class="box">
+      <h3>Modern</h3>
+      <div id="modern"></div>
+    </div>
   </div>
 
   <script src="./src/app.ts"></script>

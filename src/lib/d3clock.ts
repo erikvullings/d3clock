@@ -1,74 +1,16 @@
+import { range } from 'd3-array';
 import { timeFormat } from 'd3-time-format';
 import { select, Selection, BaseType } from 'd3-selection';
-import { range } from 'd3-array';
-import { easeExp, easeLinear, easeCircle } from 'd3-ease';
+import { easeCircle, easeExp, easeLinear } from 'd3-ease';
 import 'd3-transition';
-
-export interface IClockConfig {
-  /** Parent element selector, e.g. #clock */
-  target: string;
-  /** Clock width */
-  width?: number;
-  /** Fix the date */
-  date?: Date;
-  /** Time zone offset */
-  TZOffset?: {
-    hours?: number;
-    mins?: number;
-    secs?: number;
-  };
-  /** Clock face */
-  face?: 'sbb' | 'modern' | 'braun' | 'classic';
-}
-
-export interface IClockFace {
-  outerRing: {
-    r: number;
-    stroke: string;
-    strokeWidth: number;
-  };
-  secondsRing: {
-    r: number;
-    fill: string;
-  };
-  secondsInnermostRing: {
-    r: number;
-    fill: string;
-  };
-  tickUnit: number;
-  tickWidth: (i: number) => number;
-  tickText: any;
-  tickHeight: (i: number) => number;
-  tickFill: (i?: number) => string;
-  rotationTranslate: (i: number) => string;
-  clockHandx: (d: IClockData) => number;
-  clockHandy: (d: IClockData) => number;
-  clockHandWidth: (d: IClockData) => number;
-  clockHandFill: (d: IClockData) => string;
-  clockHandHeight: (d: IClockData) => number;
-  clockHandAdditional: (clockHand: Selection<BaseType, IClockData, BaseType, {}>) => void;
-  clockGroupAdditional: (clockGroup?: Selection<BaseType, {}, HTMLElement, any>) => boolean;
-  easing: (normalizedTime: number) => number;
-  tickTextRotated?: {
-    fontSize: number;
-    fontFamily: string;
-    fn: (i: number) => string;
-  };
-  tickTextX: any;
-}
-
-interface IClockData {
-  unit: 'hours' | 'minutes' | 'seconds';
-  text: string;
-  numeric: number;
-}
+import { IClockConfig, IClockData, IClockFace } from '..';
 
 export const d3clock = (configuration?: IClockConfig) => {
   const config = Object.assign(
     {
       face: 'sbb',
     },
-    configuration
+    configuration,
   );
 
   const pi = Math.PI;
@@ -121,9 +63,8 @@ export const d3clock = (configuration?: IClockConfig) => {
       secondsInnermostRing: { r: 0, fill: '' },
       tickUnit: (outerRadius * 0.0625) / 3,
       tickWidth: (i: number) => (i % 5 ? faceObj.tickUnit : faceObj.tickUnit * 3),
-      tickText: undefined,
       tickHeight: (i: number) => (i % 5 ? faceObj.tickUnit * 3 : faceObj.tickUnit * 9),
-      tickFill: (_i: number) => 'black',
+      tickFill: () => 'black',
       rotationTranslate: (i: number) => `translate(${-faceObj.tickWidth(i) / 2},0)`,
       clockHandx: (d) => {
         if (d.unit === 'hours') {
@@ -169,20 +110,17 @@ export const d3clock = (configuration?: IClockConfig) => {
           .attr('cy', (d) => -outerRadius + faceObj.tickUnit * 13)
           .attr('fill', '#e00');
       },
-      clockGroupAdditional: (_clockGroup?: Selection<BaseType, {}, HTMLElement, any>) => true,
+      clockGroupAdditional: () => true,
       easing: easeLinear,
-      tickTextRotated: undefined,
-      tickTextX: undefined,
     },
     modern: {
       outerRing: { r: outerRadius, stroke: '#999', strokeWidth: 1 },
       secondsRing: { r: outerRadius * 0.05, fill: 'black' },
       secondsInnermostRing: { r: (outerRadius * 0.05) / 2, fill: 'black' },
-      tickText: undefined,
       tickUnit: (outerRadius * 0.0625) / 3,
       tickWidth: (i: number) => (i % 5 ? 0 : faceObj.tickUnit),
       tickHeight: (i: number) => (i % 5 ? faceObj.tickUnit : faceObj.tickUnit * 6),
-      tickFill: (_i: number) => 'black',
+      tickFill: () => 'black',
       rotationTranslate: (i: number) => `translate(${-faceObj.tickWidth(i) / 2},0)`,
       clockHandWidth: (d) => {
         if (d.unit === 'hours') {
@@ -224,8 +162,6 @@ export const d3clock = (configuration?: IClockConfig) => {
       clockHandAdditional: () => true,
       clockGroupAdditional: () => true,
       easing: easeExp,
-      tickTextRotated: undefined,
-      tickTextX: undefined,
     },
     braun: {
       outerRing: { r: outerRadius * 1.02, stroke: '#999', strokeWidth: 1 },
@@ -238,7 +174,7 @@ export const d3clock = (configuration?: IClockConfig) => {
       tickText: {
         fontSize: (width * 14) / 500,
         fontFamily: 'Helvetica, Arial, sans-serif',
-        fn: (i) => (i % 5 ? '' : i / 5 > 0 ? i / 5 : 12),
+        fn: (i) => (i % 5 ? '' : i / 5 > 0 ? '' + i / 5 : '' + 12),
       },
       rotationTranslate: (i: number) => `translate(${-faceObj.tickWidth(i) / 2},0)`,
       clockHandWidth: (d) => {
@@ -289,8 +225,6 @@ export const d3clock = (configuration?: IClockConfig) => {
       clockHandAdditional: () => true,
       clockGroupAdditional: () => true,
       easing: easeCircle,
-      tickTextRotated: undefined,
-      tickTextX: undefined,
     },
     classic: {
       outerRing: { r: outerRadius * 1, stroke: '#000', strokeWidth: 1 },
@@ -300,7 +234,6 @@ export const d3clock = (configuration?: IClockConfig) => {
       tickWidth: (i: number) => (i % 5 ? faceObj.tickUnit / 3 : faceObj.tickUnit * 3),
       tickHeight: (i: number) => faceObj.tickUnit * 4.5,
       tickFill: (i: number) => (i % 5 ? '#999' : 'black'),
-      tickText: undefined,
       tickTextRotated: {
         fontSize: (width * 14) / 500,
         fontFamily: 'Georgia, serif',
@@ -357,8 +290,8 @@ export const d3clock = (configuration?: IClockConfig) => {
           return 'black';
         }
       },
-      clockHandAdditional: (_ch: Selection<BaseType, IClockData, BaseType, {}>) => true,
-      clockGroupAdditional: (clockGroup?: Selection<BaseType, {}, HTMLElement, any>) => {
+      clockHandAdditional: () => true,
+      clockGroupAdditional: () => {
         clockGroup
           .append('svg:circle')
           .attr('r', faceObj.outerRing.r - faceObj.tickUnit * 4)
@@ -373,7 +306,7 @@ export const d3clock = (configuration?: IClockConfig) => {
 
   const faceObj = faces[face];
 
-  //create the basic visualization:
+  // create the basic visualization:
   const vis = select(config.target)
     .append('svg:svg')
     .attr('width', width)
@@ -382,7 +315,7 @@ export const d3clock = (configuration?: IClockConfig) => {
 
   const clockGroup = vis.append('svg:g').attr('transform', `translate(${offSetX},${offSetY})`);
 
-  //create the outer circle of the clock face
+  // create the outer circle of the clock face
   clockGroup
     .append('svg:circle')
     .attr('r', faceObj.outerRing.r)
@@ -393,7 +326,7 @@ export const d3clock = (configuration?: IClockConfig) => {
 
   faceObj.clockGroupAdditional(clockGroup);
 
-  //create the minutes and hours ticks
+  // create the minutes and hours ticks
   const tickGroup = clockGroup
     .append('svg:g')
     .selectAll('.tick')
@@ -406,19 +339,19 @@ export const d3clock = (configuration?: IClockConfig) => {
     .attr('x', 0)
     .attr('y', -outerRadius)
     // .attr("width", function(d, i){return (i%5) ? 0 : 1;})
-    .attr('width', (_d, i) => faceObj.tickWidth(i))
-    .attr('height', (_d, i) => faceObj.tickHeight(i))
-    .attr('fill', (_d, i) => faceObj.tickFill(i))
-    .attr('transform', (_d, i) => `rotate(${i * 6}),${faceObj.rotationTranslate(i)}`);
+    .attr('width', (d, i) => faceObj.tickWidth(i))
+    .attr('height', (d, i) => faceObj.tickHeight(i))
+    .attr('fill', (d, i) => faceObj.tickFill(i))
+    .attr('transform', (d, i) => `rotate(${i * 6}),${faceObj.rotationTranslate(i)}`);
 
   if (faceObj.tickText) {
     const radian = (i) => 6 * i * (pi / 180) - (90 * pi) / 180;
     tickGroup
       .append('text')
       .attr('class', 'tick')
-      .attr('x', (_d, i) => {
+      .attr('x', (d, i) => {
         const xPos = Math.cos(radian(i));
-        const pos = Math.round(100 * xPos); //>0, <0, 0
+        const pos = Math.round(100 * xPos); // >0, <0, 0
         if (pos > 0) {
           return (outerRadius - faceObj.tickHeight(i) - faceObj.tickText.fontSize) * xPos;
         } else if (pos < 0) {
@@ -430,7 +363,7 @@ export const d3clock = (configuration?: IClockConfig) => {
           );
         }
       })
-      .attr('y', (_d, i) => {
+      .attr('y', (d, i) => {
         const yPos = Math.sin(radian(i));
         const pos = Math.round(100 * yPos);
         if (pos > 0) {
@@ -444,7 +377,7 @@ export const d3clock = (configuration?: IClockConfig) => {
 
       .attr('font-family', faceObj.tickText.fontFamily)
       .attr('font-size', faceObj.tickText.fontSize)
-      .text((_d, i) => faceObj.tickText.fn(i));
+      .text((d, i) => faceObj.tickText.fn(i));
   }
 
   if (faceObj.tickTextRotated) {
@@ -455,8 +388,8 @@ export const d3clock = (configuration?: IClockConfig) => {
       .attr('y', (i) => -outerRadius + faceObj.tickHeight(i) * 2.5)
       .attr('font-family', faceObj.tickTextRotated.fontFamily)
       .attr('font-size', faceObj.tickTextRotated.fontSize)
-      .text((_d, i) => faceObj.tickTextRotated.fn(i))
-      .attr('transform', (_d, i) => `rotate(${i * 6}),${faceObj.rotationTranslate(i)}`);
+      .text((d, i) => faceObj.tickTextRotated.fn(i))
+      .attr('transform', (d, i) => `rotate(${i * 6}),${faceObj.rotationTranslate(i)}`);
   }
 
   let drawClockHandAdditional = false;
