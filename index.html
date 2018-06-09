@@ -1,0 +1,57 @@
+<html>
+
+<head>
+  <!--Import Google Icon Font-->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>d3 Clock</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: #eee;
+    }
+
+    .container {
+      margin: 20px auto;
+      width: 700px;
+      height: 700px;
+      background-color: #fff;
+      display: grid;
+      grid-template-columns: 320px 320px;
+      grid-row: auto auto;
+      grid-column-gap: 20px;
+      grid-row-gap: 20px;
+    }
+
+    .container .box {
+      padding: 20px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h1 {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>D3 Clock</h1>
+  <div class="container">
+    <div class="box" id="sbb"></div>
+    <div class="box" id="braun"></div>
+    <div class="box" id="classic"></div>
+    <div class="box" id="modern"></div>
+  </div>
+
+  <script src="./src/app.ts"></script>
+</body>
+
+</html>
