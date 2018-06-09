@@ -1,5 +1,7 @@
 import { ClockFaceCreator } from '..';
 
+export type DateFn = () => number;
+
 /** Clock configuration object */
 export interface IClockConfig {
   /** Parent element selector, e.g. #clock */
@@ -9,7 +11,7 @@ export interface IClockConfig {
   /** Clock width */
   width?: number;
   /** Fix the date */
-  date?: string | number;
+  date?: string | number | DateFn;
   /** Time zone offset */
   TZOffset?: {
     hours?: number;

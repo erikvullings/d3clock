@@ -7,6 +7,7 @@ An analogue clock with multiple faces, based on d3.
 Credits go to Daniel Pradilla, who created the [original d3clock](https://www.danielpradilla.info/blog/a-swiss-railway-clock-in-d3).
 
 I've only:
+- added the option to provide a time function that specifies the time (e.g. for simulation)
 - converted d3 from v3 to v5
 - converted the JavaScript to TypeScript
 - refactored the clock faces to separate files, so you only load faces that you will be using.
