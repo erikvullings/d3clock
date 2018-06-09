@@ -2,7 +2,7 @@
 
 An analogue clock with multiple faces, based on d3.
 
-![screenshot](img/screenshot.png)
+![screenshot](https://github.com/erikvullings/d3clock/blob/master/img/screenshot.png)
 
 Credits go to Daniel Pradilla, who created the [original d3clock](https://www.danielpradilla.info/blog/a-swiss-railway-clock-in-d3).
 
@@ -29,7 +29,7 @@ With ideas from
 Call d3clock(config) for each clock instance e.g.:
 
 ```typescript
-import { d3clock, sbb } from './index';
+import { d3clock, sbb } from 'd3-clock';
 
 document.addEventListener('DOMContentLoaded', () => {
   d3clock({
