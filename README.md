@@ -2,7 +2,7 @@
 
 An analogue clock with multiple faces, based on d3.
 
-![screenshot](https://github.com/erikvullings/d3clock/blob/master/img/screenshot.png)
+![screenshot](https://github.com/erikvullings/d3clock/raw/master/img/screenshot.png)
 
 Credits go to Daniel Pradilla, who created the [original d3clock](https://www.danielpradilla.info/blog/a-swiss-railway-clock-in-d3).
 
