@@ -13,7 +13,7 @@ export const braun: ClockFaceCreator = (outerRadius: number, width: number) => {
     tickUnit,
     tickWidth,
     tickHeight: (i: number) => (i % 5 ? tickUnit * 4.5 : tickUnit * 4.5),
-    tickFill: (i: number) => (i % 5 ? '#999' : 'black'),
+    tickFill: (i?: number) => (i && i % 5 ? '#999' : 'black'),
     tickText: {
       fontSize: (width * 14) / 500,
       fontFamily: 'Helvetica, Arial, sans-serif',
@@ -25,45 +25,40 @@ export const braun: ClockFaceCreator = (outerRadius: number, width: number) => {
         return tickUnit * 3;
       } else if (d.unit === 'minutes') {
         return tickUnit * 2;
-      } else if (d.unit === 'seconds') {
-        return tickUnit;
       }
+      return tickUnit;
     },
     clockHandHeight: (d) => {
       if (d.unit === 'hours') {
         return outerRadius - outerRadius / 3 - secondsRing.r * 3;
       } else if (d.unit === 'minutes') {
         return outerRadius - (secondsRing.r * 3 + tickUnit * 4);
-      } else if (d.unit === 'seconds') {
-        return outerRadius - tickUnit * 4;
       }
+      return outerRadius - tickUnit * 4;
     },
     clockHandx: (d) => {
       if (d.unit === 'hours') {
         return (-tickUnit * 3) / 2;
       } else if (d.unit === 'minutes') {
         return (-tickUnit * 2) / 2;
-      } else if (d.unit === 'seconds') {
-        return -tickUnit / 2;
       }
+      return -tickUnit / 2;
     },
     clockHandy: (d) => {
       if (d.unit === 'hours') {
         return -outerRadius + outerRadius / 3 + secondsRing.r * 3;
       } else if (d.unit === 'minutes') {
         return -outerRadius + secondsRing.r * 3 + tickUnit * 4;
-      } else if (d.unit === 'seconds') {
-        return -outerRadius + secondsRing.r * 3 + tickUnit * 4;
       }
+      return -outerRadius + secondsRing.r * 3 + tickUnit * 4;
     },
     clockHandFill: (d) => {
       if (d.unit === 'seconds') {
         return '#F6C52E';
       } else if (d.unit === 'minutes') {
         return '#333';
-      } else {
-        return '#666';
       }
+      return '#666';
     },
     clockHandAdditional: () => true,
     clockGroupAdditional: () => true,

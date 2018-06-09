@@ -9,7 +9,7 @@ export interface IClockConfig {
   /** Clock width */
   width?: number;
   /** Fix the date */
-  date?: Date;
+  date?: string | number;
   /** Time zone offset */
   TZOffset?: {
     hours?: number;

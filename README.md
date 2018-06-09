@@ -2,6 +2,8 @@
 
 An analogue clock with multiple faces, based on d3.
 
+![screenshot](img/screenshot.png)
+
 Credits go to Daniel Pradilla, who created the [original d3clock](https://www.danielpradilla.info/blog/a-swiss-railway-clock-in-d3).
 
 I've only:
@@ -24,25 +26,32 @@ With ideas from
 
 ## Usage:
 
-Call d3clock(config) for each clock instance
+Call d3clock(config) for each clock instance e.g.:
 
-e.g.:
-```javascript
-d3clock({
-	target: '#chart1',
-	face: 'modern',
-	width: 1000,
-	// date:'Mon May 25 2015 10:09:37',
-	TZOffset: { hours: 0}
+```typescript
+import { d3clock, sbb } from './index';
+
+document.addEventListener('DOMContentLoaded', () => {
+  d3clock({
+    // Parent div to put the clock in
+    target: '#sbb',
+    // Width of the clock
+    width: 600,
+    // Fixed time
+    // date:'Mon May 25 2015 10:09:37',
+    // Time zone offset
+    TZOffset: { hours: 0 },
+    // Clock face, e.g. sbb, braun, modern, or classic, must be imported
+    face: sbb
+  });
 });
 ```
 
 You can create several instances in a page (for showing multiple time zones, for example).
 If you send a date value in the config object, it shows a fixed time (good for testing).
 
-
-Available faces
-----------------
+Available clock faces
+---------------------
 
 1. sbb: The famous [Swiss Railway Clock](https://en.wikipedia.org/wiki/Swiss_railway_clock)
 2. modern: A somewhat modern/minimalist face

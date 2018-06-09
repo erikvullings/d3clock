@@ -1,3 +1,4 @@
+import { ITickText } from './../clock-face';
 import { easeExp } from 'd3-ease';
 import { BaseType, Selection } from 'd3-selection';
 import { ClockFaceCreator } from '../..';
@@ -5,7 +6,7 @@ import { ClockFaceCreator } from '../..';
 export const classic: ClockFaceCreator = (outerRadius: number, width: number) => {
   const tickUnit = (outerRadius * 0.0625) / 3;
   const tickWidth = (i: number) => (i % 5 ? tickUnit / 3 : tickUnit * 3);
-  const tickTextRotated = {
+  const tickTextRotated: ITickText = {
     fontSize: (width * 14) / 500,
     fontFamily: 'Georgia, serif',
     fn: (i) => (i % 5 ? '' : i / 5 > 0 ? romanNumerals[i / 5 - 1] : romanNumerals[12 - 1]),
@@ -21,7 +22,7 @@ export const classic: ClockFaceCreator = (outerRadius: number, width: number) =>
     tickUnit,
     tickWidth,
     tickHeight: (_i: number) => tickUnit * 4.5,
-    tickFill: (i: number) => (i % 5 ? '#999' : 'black'),
+    tickFill: (i?: number) => (i && i % 5 ? '#999' : 'black'),
     tickTextRotated,
     tickTextX: (i) =>
       tickTextRotated.fn(i).length > 1
@@ -33,7 +34,7 @@ export const classic: ClockFaceCreator = (outerRadius: number, width: number) =>
         return tickUnit * 2;
       } else if (d.unit === 'minutes') {
         return tickUnit * 2;
-      } else if (d.unit === 'seconds') {
+      } else {
         return tickUnit / 2;
       }
     },
@@ -42,7 +43,7 @@ export const classic: ClockFaceCreator = (outerRadius: number, width: number) =>
         return outerRadius - outerRadius / 3 - secondsRing.r * 3;
       } else if (d.unit === 'minutes') {
         return outerRadius - (secondsRing.r * 3 + tickUnit * 4);
-      } else if (d.unit === 'seconds') {
+      } else {
         return outerRadius - tickUnit * 4;
       }
     },
@@ -51,7 +52,7 @@ export const classic: ClockFaceCreator = (outerRadius: number, width: number) =>
         return (-tickUnit * 3) / 2;
       } else if (d.unit === 'minutes') {
         return (-tickUnit * 2) / 2;
-      } else if (d.unit === 'seconds') {
+      } else {
         return -tickUnit / 2;
       }
     },
@@ -60,27 +61,21 @@ export const classic: ClockFaceCreator = (outerRadius: number, width: number) =>
         return -outerRadius + outerRadius / 3 + secondsRing.r * 3;
       } else if (d.unit === 'minutes') {
         return -outerRadius + secondsRing.r * 3 + tickUnit * 4;
-      } else if (d.unit === 'seconds') {
+      } else {
         return -outerRadius + secondsRing.r * 3 + tickUnit * 4;
       }
     },
-    clockHandFill: (d) => {
-      if (d.unit === 'seconds') {
-        return 'black';
-      } else if (d.unit === 'minutes') {
-        return 'black';
-      } else {
-        return 'black';
-      }
-    },
+    clockHandFill: (d) => 'black',
     clockHandAdditional: () => true,
-    clockGroupAdditional: (clockGroup: Selection<BaseType, {}, HTMLElement, any>) => {
-      clockGroup
-        .append('svg:circle')
-        .attr('r', outerRing.r - tickUnit * 4)
-        .attr('fill', 'none')
-        .attr('stroke', '#000')
-        .attr('stroke-width', '1px');
+    clockGroupAdditional: (clockGroup?: Selection<BaseType, {}, HTMLElement, any>) => {
+      if (clockGroup) {
+        clockGroup
+          .append('svg:circle')
+          .attr('r', outerRing.r - tickUnit * 4)
+          .attr('fill', 'none')
+          .attr('stroke', '#000')
+          .attr('stroke-width', '1px');
+      }
       return true;
     },
     easing: easeExp,

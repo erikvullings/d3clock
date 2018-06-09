@@ -20,7 +20,7 @@ export const d3clock = (config: IClockConfig) => {
   const offSetX = height / 2;
   const offSetY = height / 2;
 
-  const fields = (date?: Date | string | number) => {
+  const fields = (date?: string | number) => {
     const d = date ? new Date(date) : new Date();
     const second = d.getSeconds() + secOffset;
     const minute = d.getMinutes() + minOffset;
@@ -98,11 +98,12 @@ export const d3clock = (config: IClockConfig) => {
     .attr('transform', (_d, i) => `rotate(${i * 6}),${faceObj.rotationTranslate(i)}`);
 
   if (faceObj.tickText) {
-    const radian = (i) => 6 * i * (pi / 180) - (90 * pi) / 180;
+    const radian = (i: number) => 6 * i * (pi / 180) - (90 * pi) / 180;
     tickGroup
       .append('text')
       .attr('class', 'tick')
       .attr('x', (_d, i) => {
+        if (!faceObj.tickText) { return 0; }
         const xPos = Math.cos(radian(i));
         const pos = Math.round(100 * xPos); // >0, <0, 0
         if (pos > 0) {
@@ -117,6 +118,7 @@ export const d3clock = (config: IClockConfig) => {
         }
       })
       .attr('y', (_d, i) => {
+        if (!faceObj.tickText) { return 0; }
         const yPos = Math.sin(radian(i));
         const pos = Math.round(100 * yPos);
         if (pos > 0) {
@@ -130,18 +132,18 @@ export const d3clock = (config: IClockConfig) => {
 
       .attr('font-family', faceObj.tickText.fontFamily)
       .attr('font-size', faceObj.tickText.fontSize)
-      .text((_d, i) => faceObj.tickText.fn(i));
+      .text((_d, i) => faceObj.tickText ? faceObj.tickText.fn(i) : 0);
   }
 
   if (faceObj.tickTextRotated) {
     tickGroup
       .append('text')
       .attr('class', 'tick')
-      .attr('x', (i) => faceObj.tickTextX(i))
+      .attr('x', (i) => faceObj.tickTextX ? faceObj.tickTextX(i) : 0)
       .attr('y', (i) => -outerRadius + faceObj.tickHeight(i) * 2.5)
       .attr('font-family', faceObj.tickTextRotated.fontFamily)
       .attr('font-size', faceObj.tickTextRotated.fontSize)
-      .text((_d, i) => faceObj.tickTextRotated.fn(i))
+      .text((_d, i) => faceObj.tickTextRotated ? faceObj.tickTextRotated.fn(i) : 0)
       .attr('transform', (_d, i) => `rotate(${i * 6}),${faceObj.rotationTranslate(i)}`);
   }
 

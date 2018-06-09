@@ -20,7 +20,7 @@ export const modern: ClockFaceCreator = (outerRadius: number, _width: number) =>
         return tickUnit * 3;
       } else if (d.unit === 'minutes') {
         return tickUnit * 2;
-      } else if (d.unit === 'seconds') {
+      } else {
         return tickUnit;
       }
     },
@@ -29,7 +29,7 @@ export const modern: ClockFaceCreator = (outerRadius: number, _width: number) =>
         return outerRadius - outerRadius / 3 - secondsRing.r * 3;
       } else if (d.unit === 'minutes') {
         return outerRadius - (secondsRing.r * 3 + tickUnit * 4);
-      } else if (d.unit === 'seconds') {
+      } else {
         return outerRadius - (secondsRing.r * 3 + tickUnit * 4);
       }
     },
@@ -38,7 +38,7 @@ export const modern: ClockFaceCreator = (outerRadius: number, _width: number) =>
         return (-tickUnit * 3) / 2;
       } else if (d.unit === 'minutes') {
         return (-tickUnit * 2) / 2;
-      } else if (d.unit === 'seconds') {
+      } else {
         return -tickUnit / 2;
       }
     },
@@ -47,7 +47,7 @@ export const modern: ClockFaceCreator = (outerRadius: number, _width: number) =>
         return -outerRadius + outerRadius / 3 + secondsRing.r * 3;
       } else if (d.unit === 'minutes') {
         return -outerRadius + secondsRing.r * 3 + tickUnit * 4;
-      } else if (d.unit === 'seconds') {
+      } else {
         return -outerRadius + secondsRing.r * 2 + tickUnit * 4;
       }
     },

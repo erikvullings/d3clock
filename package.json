@@ -1,15 +1,25 @@
 {
   "name": "d3-clock",
   "version": "0.0.1",
-  "description": "An analogue clock made with D3",
-  "main": "index.js",
+  "description": "An analogue clock made with D3.",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel index.html",
+    "build": "tsc",
+    "patch-release": "tsc && npm version patch && npm publish && git push --follow-tags",
+    "minor-release": "tsc && npm version minor && npm publish && git push --follow-tags"
   },
   "keywords": [
     "analogue",
     "clock",
     "d3"
+  ],
+  "files": [
+    "dist/index.d.ts",
+    "dist/index.js",
+    "dist/lib/",
+    "dist/lib/faces/"
   ],
   "author": "Erik Vullings <erik.vullings@gmail.com> (http://www.tno.nl)",
   "license": "MIT",
@@ -17,7 +27,6 @@
     "@types/d3-array": "^1.2.1",
     "d3-array": "^1.2.1",
     "d3-ease": "^1.0.3",
-    "d3-scale": "^2.0.0",
     "d3-selection": "^1.3.0",
     "d3-time": "^1.0.8",
     "d3-time-format": "^2.1.1",
@@ -25,7 +34,6 @@
   },
   "devDependencies": {
     "@types/d3-ease": "^1.0.7",
-    "@types/d3-scale": "^2.0.1",
     "@types/d3-selection": "^1.3.1",
     "@types/d3-time": "^1.0.8",
     "@types/d3-time-format": "^2.1.0",
