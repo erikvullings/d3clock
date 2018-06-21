@@ -14,7 +14,7 @@ export const d3clock = (config: IClockConfig) => {
   const formatMinute = timeFormat('%M');
   const formatHour = timeFormat('%H');
   const width = config.width || 1000;
-  const height = width / 2;
+  const height = width;
 
   const outerRadius = (0.8 * height) / 2;
   const offSetX = height / 2;
@@ -53,14 +53,6 @@ export const d3clock = (config: IClockConfig) => {
   const secOffset = config.TZOffset && config.TZOffset.secs ? config.TZOffset.secs : 0;
 
   const face = config.face;
-
-  const faces: { [key: string]: IClockFace } = {
-    sbb: sbb(outerRadius, width),
-    modern: modern(outerRadius, width),
-    braun: braun(outerRadius, width),
-    classic: classic(outerRadius, width),
-  };
-
   const faceObj = face(outerRadius, width);
 
   // create the basic visualization:

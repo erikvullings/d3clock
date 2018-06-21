@@ -15,10 +15,10 @@ const simDateGenerator = () => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  d3clock({ target: '#sbb', width: 600, face: sbb });
-  d3clock({ target: '#braun', width: 600, face: braun });
-  d3clock({ target: '#classic', width: 600, face: classic });
-  d3clock({ target: '#modern', width: 600, face: modern });
-  d3clock({ target: '#sim', width: 600, face: braun, date: simDateGenerator() });
-  d3clock({ target: '#tz', width: 600, face: classic, TZOffset: { hours: 8 } });
+  d3clock({ target: '#sbb', width: 300, face: sbb });
+  d3clock({ target: '#braun', width: 300, face: braun });
+  d3clock({ target: '#classic', width: 300, face: classic });
+  d3clock({ target: '#modern', width: 300, face: modern });
+  d3clock({ target: '#sim', width: 300, face: braun, date: simDateGenerator() });
+  d3clock({ target: '#tz', width: 300, face: classic, TZOffset: { hours: 8 } });
 });
